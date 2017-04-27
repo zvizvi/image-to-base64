@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+	<meta charset="utf-8">
+	<title>base64</title>
+	<link rel="stylesheet" href="src/style.css">
+</head>
+
+<body>
+	<div class="header">
+		<h1>Image To Data Convertor</h1>
+	</div>
+	<div class="content">
+		<div class="upload">
+			<input id="upload-img" type="file" accept="image/*" />
+			<a id="upload-trigger">SELECT IMAGE</a>
+		</div>
+		<div id="result" style="display:none" class="">
+			<div id="result-continer">
+				<div class="img-preview">
+					<span>Preview</span>
+					<div class="img">
+						<img id="show-img" src="" />
+					</div>
+					<div id="img-details">
+						<div id="img-name"></div>
+						<div id="img-size"></div>
+					</div>
+				</div>
+				<div class="code">
+					<span>Data uri</span>
+					<textarea readonly id="base64"></textarea>
+				</div>
+				<br/>
+				<br/>
+				<!--a id="download-img" href="#" target="_blank">download</a-->
+			</div>
+		</div>
+	</div>
+	<div class="footer">
+	</div>
+	<script>
+	result = document.getElementById('result')
+	input = document.getElementById('upload-img')
+	img = document.getElementById('show-img')
+	download = document.getElementById('download-img')
+	_name = document.getElementById('img-name')
+	_size = document.getElementById('img-size')
+	base64 = document.getElementById('base64')
+	input.addEventListener("change", loadImg)
+
+	function loadImg(e) {
+		//if(input.files[0]){
+		console.log(e)
+		_name.innerHTML = '<b>Filename:</b> ' + input.files[0].name
+		_size.innerHTML = '<b>Size:</b> ' + (input.files[0].size / 1024).toFixed(1) + 'kb'
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			result.style.display = "block"
+			img.src = e.target.result;
+			//download.href=img.src
+			base64.innerHTML = img.src
+		}
+		reader.readAsDataURL(this.files[0]);
+		//}
+	}
+	base64.addEventListener("focus", function() {
+		base64.select()
+	})
+	</script>
+</body>
